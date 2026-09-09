@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git submodule status --recursive
+          git submodule update --init --recursive
 
 
       - name: Maximize build space
