@@ -37,3 +37,6 @@
 [submodule "source_codes/hyprland_source/hyprlock"]
 	path = build_files/hyprland_source/hyprlock
 	url = https://github.com/hyprwm/hyprlock
+[submodule "build_files/hyprland_source/hyprland-guiutils"]
+	path = build_files/hyprland_source/hyprland-guiutils
+	url = https://github.com/hyprwm/hyprland-guiutils
