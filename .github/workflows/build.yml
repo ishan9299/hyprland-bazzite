@@ -23,6 +23,7 @@ concurrency:
 jobs:
   build_push:
     name: Build and push image
+    needs: build_hyprland
     runs-on: ubuntu-26.04
 
     permissions:
