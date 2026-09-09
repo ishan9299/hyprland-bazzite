@@ -79,7 +79,7 @@ ENV PATH="/hyprland-out/usr/bin:${PATH}"
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprland-protocols \
     -B /tmp/hypr-build/hyprland-protocols
@@ -90,7 +90,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland-protocols
 
 
@@ -101,7 +101,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprwayland-scanner \
     -B /tmp/hypr-build/hyprwayland-scanner
@@ -112,7 +112,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprwayland-scanner
 
 
@@ -123,7 +123,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprutils \
     -B /tmp/hypr-build/hyprutils
@@ -134,7 +134,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprutils
 
 
@@ -145,7 +145,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprgraphics \
     -B /tmp/hypr-build/hyprgraphics
@@ -156,7 +156,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprgraphics
 
 
@@ -167,7 +167,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprlang \
     -B /tmp/hypr-build/hyprlang
@@ -178,7 +178,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlang
 
 
@@ -189,7 +189,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprcursor \
     -B /tmp/hypr-build/hyprcursor
@@ -200,7 +200,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprcursor
 
 
@@ -211,7 +211,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/aquamarine \
     -B /tmp/hypr-build/aquamarine
@@ -222,7 +222,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/aquamarine
 
 
@@ -233,7 +233,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/xdg-desktop-portal-hyprland \
     -B /tmp/hypr-build/xdg-desktop-portal-hyprland
@@ -244,7 +244,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/xdg-desktop-portal-hyprland
 
 
@@ -255,7 +255,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprwire \
     -B /tmp/hypr-build/hyprwire
@@ -266,7 +266,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprwire
 
 
@@ -277,7 +277,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprtoolkit \
     -B /tmp/hypr-build/hyprtoolkit
@@ -288,7 +288,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprtoolkit
 
 
@@ -299,7 +299,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprland \
     -B /tmp/hypr-build/hyprland
@@ -310,7 +310,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland
 
 
@@ -321,7 +321,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprpaper \
     -B /tmp/hypr-build/hyprpaper
@@ -332,7 +332,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprpaper
 
 
@@ -343,7 +343,7 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprland-guiutils \
     -B /tmp/hypr-build/hyprland-guiutils
@@ -354,7 +354,7 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland-guiutils
 
 
@@ -365,8 +365,8 @@ RUN cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
-    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -DCMAKE_INSTALL_PREFIX:PATH=/etc \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/etc \
     -S /hyprland_source/hyprlock \
     -B /tmp/hypr-build/hyprlock
 
@@ -376,20 +376,8 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN cmake \
+RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlock
-
-# hyprlock installs its PAM configuration under /usr/etc on Fedora.
-# Move it to /etc for the bootc final image.
-RUN if [ -f /hyprland-out/usr/etc/pam.d/hyprlock ]; then \
-        mkdir -p /hyprland-out/etc/pam.d && \
-        mv /hyprland-out/usr/etc/pam.d/hyprlock \
-           /hyprland-out/etc/pam.d/hyprlock && \
-        rmdir --ignore-fail-on-non-empty \
-            /hyprland-out/usr/etc/pam.d 2>/dev/null || true && \
-        rmdir --ignore-fail-on-non-empty \
-            /hyprland-out/usr/etc 2>/dev/null || true; \
-    fi
 
 # ============================================================================
 # EXPORT ARTIFACTS
