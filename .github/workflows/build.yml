@@ -72,7 +72,12 @@ jobs:
   build_push:
     name: Build and push image
     needs: [changes, build_hyprland]
-    if: always()
+    if: >
+      needs.changes.result == 'success' &&
+      (
+        needs.changes.outputs.hyprland_changed != 'true' ||
+        needs.build_hyprland.result == 'success'
+      )
     runs-on: ubuntu-26.04
 
     permissions:
