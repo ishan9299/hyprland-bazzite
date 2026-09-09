@@ -1,0 +1,48 @@
+name: Build Hyprland Artifacts Cache
+
+on:
+  push:
+    paths:
+      # Triggers when any submodule pointer inside this directory is updated
+      - 'build_files/hyprland_source/**'
+      # Triggers if you add/remove submodules
+      - '.gitmodules'
+      # Triggers if you change the build instructions
+      - 'Hyprland.Containerfile'
+  workflow_dispatch: # Allows you to manually trigger a build from the GitHub UI
+
+env:
+  IMAGE_NAME: hyprland-artifacts
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # CRITICAL: This tells GitHub Actions to pull the actual source code 
+          # inside the submodules, not just the empty folders.
+          submodules: recursive
+
+      - name: Build Image with Podman
+        run: |
+          podman build \
+          -t ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+          -f ./Hyprland.Containerfile \
+          .
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          podman login ghcr.io \
+            -u ${{ github.actor }} \
+            --password-stdin <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Push to GitHub Container Registry
+        run: |
+          podman push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
