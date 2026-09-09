@@ -72,6 +72,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     xcb-util-errors-devel \
     readline-devel \
     lua-devel \
+    libnotify-devel \
     \
     pam-devel \
     \
