@@ -98,6 +98,10 @@ ENV PKG_CONFIG_PATH="/hyprland-out/usr/lib64/pkgconfig:/hyprland-out/usr/lib/pkg
 # hyprland-protocols
 # ============================================================================
 
+RUN pwd
+
+RUN tree -L 3
+
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
