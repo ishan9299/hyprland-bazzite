@@ -1,0 +1,39 @@
+[submodule "source_codes/hyprland_source/hyprland-protocols"]
+	path = build_files/hyprland_source/hyprland-protocols
+	url = https://github.com/hyprwm/hyprland-protocols
+[submodule "source_codes/hyprland_source/hyprwayland-scanner"]
+	path = build_files/hyprland_source/hyprwayland-scanner
+	url = https://github.com/hyprwm/hyprwayland-scanner
+[submodule "source_codes/hyprland_source/hyprutils"]
+	path = build_files/hyprland_source/hyprutils
+	url = https://github.com/hyprwm/hyprutils
+[submodule "source_codes/hyprland_source/hyprgraphics"]
+	path = build_files/hyprland_source/hyprgraphics
+	url = https://github.com/hyprwm/hyprgraphics
+[submodule "source_codes/hyprland_source/hyprlang"]
+	path = build_files/hyprland_source/hyprlang
+	url = https://github.com/hyprwm/hyprlang
+[submodule "source_codes/hyprland_source/hyprcursor"]
+	path = build_files/hyprland_source/hyprcursor
+	url = https://github.com/hyprwm/hyprcursor
+[submodule "source_codes/hyprland_source/aquamarine"]
+	path = build_files/hyprland_source/aquamarine
+	url = https://github.com/hyprwm/aquamarine
+[submodule "source_codes/hyprland_source/xdg-desktop-portal-hyprland"]
+	path = build_files/hyprland_source/xdg-desktop-portal-hyprland
+	url = https://github.com/hyprwm/xdg-desktop-portal-hyprland
+[submodule "source_codes/hyprland_source/hyprwire"]
+	path = build_files/hyprland_source/hyprwire
+	url = https://github.com/hyprwm/hyprwire
+[submodule "source_codes/hyprland_source/hyprtoolkit"]
+	path = build_files/hyprland_source/hyprtoolkit
+	url = https://github.com/hyprwm/hyprtoolkit
+[submodule "source_codes/hyprland_source/hyprland"]
+	path = build_files/hyprland_source/hyprland
+	url = https://github.com/hyprwm/hyprland
+[submodule "source_codes/hyprland_source/hyprpaper"]
+	path = build_files/hyprland_source/hyprpaper
+	url = https://github.com/hyprwm/hyprpaper
+[submodule "source_codes/hyprland_source/hyprlock"]
+	path = build_files/hyprland_source/hyprlock
+	url = https://github.com/hyprwm/hyprlock
