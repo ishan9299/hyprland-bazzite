@@ -76,6 +76,10 @@ RUN mkdir -p /hyprland-out/usr
 
 ENV PATH="/hyprland-out/usr/bin:${PATH}"
 
+# also search these locations for headers and libraries.
+ENV CPLUS_INCLUDE_PATH="/hyprland-out/usr/include"
+ENV LIBRARY_PATH="/hyprland-out/usr/lib64:/hyprland-out/usr/lib"
+
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
