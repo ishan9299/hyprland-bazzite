@@ -78,7 +78,7 @@ ENV PATH="/hyprland-out/usr/bin:${PATH}"
 
 # also search these locations for headers and libraries.
 ENV CPLUS_INCLUDE_PATH="/hyprland-out/usr/include"
-ENV LIBRARY_PATH="/hyprland-out/usr/lib64:/hyprland-out/usr/lib"
+ENV LD_LIBRARY_PATH="/hyprland-out/usr/lib64:/hyprland-out/usr/lib:${LD_LIBRARY_PATH}"
 
 RUN cmake \
     --no-warn-unused-cli \
