@@ -21,9 +21,58 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-26.04
+    outputs:
+      hyprland_changed: ${{ steps.filter.outputs.hyprland }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            hyprland:
+              - 'build_files/hyprland_source/**'
+              - '.gitmodules'
+              - 'Hyprland.Containerfile'
+
+  build_hyprland:
+    needs: changes
+    if: needs.changes.outputs.hyprland_changed == 'true'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # CRITICAL: This tells GitHub Actions to pull the actual source code 
+          # inside the submodules, not just the empty folders.
+          submodules: recursive
+
+      - name: Build Image with Podman
+        run: |
+          podman build \
+          -t ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+          -f ./Hyprland.Containerfile \
+          .
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          podman login ghcr.io \
+            -u ${{ github.actor }} \
+            --password-stdin <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Push to GitHub Container Registry
+        run: |
+          podman push ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
   build_push:
     name: Build and push image
-    needs: build_hyprland
+    needs: [changes, build_hyprland]
+    if: always()
     runs-on: ubuntu-26.04
 
     permissions:
@@ -33,6 +82,10 @@ jobs:
 
     steps:
       # These stage versions are pinned by https://github.com/renovatebot/renovate
+      - name: Fail if cache build failed
+        if: needs.build_hyprland.result == 'failure'
+        run: exit 1
+
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
