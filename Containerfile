@@ -100,7 +100,7 @@ ENV PKG_CONFIG_PATH="/hyprland-out/usr/lib64/pkgconfig:/hyprland-out/usr/lib/pkg
 
 RUN pwd
 
-RUN ls
+RUN ls hyprland_source/hyprland-protocols
 
 RUN cmake \
     --no-warn-unused-cli \
