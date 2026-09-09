@@ -337,6 +337,28 @@ RUN cmake \
 
 
 # ============================================================================
+# hyprland-guiutils
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprland-guiutils \
+    -B /tmp/hypr-build/hyprland-guiutils
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprland-guiutils \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprland-guiutils
+
+
+# ============================================================================
 # hyprlock
 # ============================================================================
 
