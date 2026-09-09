@@ -79,99 +79,319 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     \
     && dnf clean all
 
-
 # Source must be writable because some Hyprland projects generate files
 # inside their source tree during the build.
 COPY --from=ctx /hyprland_source /hyprland_source
 
-
 RUN mkdir -p /hyprland-out/usr
+
+# Make binaries installed by earlier Hyprland components available to later
+# components.
 ENV PATH="/hyprland-out/usr/bin:${PATH}"
 
+# Make pkg-config files installed by earlier components visible to later
+# components.
+ENV PKG_CONFIG_PATH="/hyprland-out/usr/lib64/pkgconfig:/hyprland-out/usr/lib/pkgconfig:/hyprland-out/usr/share/pkgconfig:${PKG_CONFIG_PATH}"
 
-# Generic component builder
-RUN cat > /usr/local/bin/build-hypr <<'EOF'
-#!/bin/bash
-set -euo pipefail
 
-name="$1"
+# ============================================================================
+# hyprland-protocols
+# ============================================================================
 
-SOURCE_ROOT=/hyprland_source
-BUILD_ROOT=/tmp/hypr-build
-OUT=/hyprland-out
-
-source_dir="$SOURCE_ROOT/$name"
-build_dir="$BUILD_ROOT/$name"
-
-echo
-echo "========================================"
-echo "Building $name"
-echo "========================================"
-
-if [[ ! -d "$source_dir" ]]; then
-    echo "ERROR: source directory does not exist:"
-    echo "  $source_dir"
-    exit 1
-fi
-
-mkdir -p "$BUILD_ROOT"
-
-cmake \
+RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH="$OUT/usr" \
-    -DCMAKE_PREFIX_PATH:PATH="$OUT/usr" \
-    -S "$source_dir" \
-    -B "$build_dir"
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprland-protocols \
+    -B /tmp/hypr-build/hyprland-protocols
 
-cmake \
-    --build "$build_dir" \
+RUN cmake \
+    --build /tmp/hypr-build/hyprland-protocols \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-cmake --install "$build_dir"
-EOF
-
-RUN chmod +x /usr/local/bin/build-hypr
+RUN cmake \
+    --install /tmp/hypr-build/hyprland-protocols
 
 
 # ============================================================================
-# Hyprland components
+# hyprwayland-scanner
 # ============================================================================
 
-RUN build-hypr hyprland-protocols
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprwayland-scanner \
+    -B /tmp/hypr-build/hyprwayland-scanner
 
-RUN build-hypr hyprwayland-scanner
+RUN cmake \
+    --build /tmp/hypr-build/hyprwayland-scanner \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN build-hypr hyprutils
+RUN cmake \
+    --install /tmp/hypr-build/hyprwayland-scanner
 
-RUN build-hypr hyprgraphics
 
-RUN build-hypr hyprlang
+# ============================================================================
+# hyprutils
+# ============================================================================
 
-RUN build-hypr hyprcursor
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprutils \
+    -B /tmp/hypr-build/hyprutils
 
-RUN build-hypr aquamarine
+RUN cmake \
+    --build /tmp/hypr-build/hyprutils \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN build-hypr xdg-desktop-portal-hyprland
+RUN cmake \
+    --install /tmp/hypr-build/hyprutils
 
-RUN build-hypr hyprwire
 
-RUN build-hypr hyprtoolkit
+# ============================================================================
+# hyprgraphics
+# ============================================================================
 
-RUN build-hypr hyprland
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprgraphics \
+    -B /tmp/hypr-build/hyprgraphics
 
-RUN build-hypr hyprpaper
+RUN cmake \
+    --build /tmp/hypr-build/hyprgraphics \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
-RUN build-hypr hyprlock && \
-      if [ -f /hyprland-out/usr/etc/pam.d/hyprlock ]; then \
+RUN cmake \
+    --install /tmp/hypr-build/hyprgraphics
+
+
+# ============================================================================
+# hyprlang
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprlang \
+    -B /tmp/hypr-build/hyprlang
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprlang \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprlang
+
+
+# ============================================================================
+# hyprcursor
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprcursor \
+    -B /tmp/hypr-build/hyprcursor
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprcursor \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprcursor
+
+
+# ============================================================================
+# aquamarine
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/aquamarine \
+    -B /tmp/hypr-build/aquamarine
+
+RUN cmake \
+    --build /tmp/hypr-build/aquamarine \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/aquamarine
+
+
+# ============================================================================
+# xdg-desktop-portal-hyprland
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/xdg-desktop-portal-hyprland \
+    -B /tmp/hypr-build/xdg-desktop-portal-hyprland
+
+RUN cmake \
+    --build /tmp/hypr-build/xdg-desktop-portal-hyprland \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/xdg-desktop-portal-hyprland
+
+
+# ============================================================================
+# hyprwire
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprwire \
+    -B /tmp/hypr-build/hyprwire
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprwire \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprwire
+
+
+# ============================================================================
+# hyprtoolkit
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprtoolkit \
+    -B /tmp/hypr-build/hyprtoolkit
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprtoolkit \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprtoolkit
+
+
+# ============================================================================
+# hyprland
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprland \
+    -B /tmp/hypr-build/hyprland
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprland \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprland
+
+
+# ============================================================================
+# hyprpaper
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprpaper \
+    -B /tmp/hypr-build/hyprpaper
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprpaper \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprpaper
+
+
+# ============================================================================
+# hyprlock
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/hyprland-out/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
+    -S /hyprland_source/hyprlock \
+    -B /tmp/hypr-build/hyprlock
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprlock \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprlock
+
+# hyprlock installs its PAM configuration under /usr/etc on Fedora.
+# Move it to /etc for the bootc final image.
+RUN if [ -f /hyprland-out/usr/etc/pam.d/hyprlock ]; then \
         mkdir -p /hyprland-out/etc/pam.d && \
         mv /hyprland-out/usr/etc/pam.d/hyprlock \
-        /hyprland-out/etc/pam.d/hyprlock && \
-        rmdir --ignore-fail-on-non-empty /hyprland-out/usr/etc/pam.d 2>/dev/null || true && \
-        rmdir --ignore-fail-on-non-empty /hyprland-out/usr/etc 2>/dev/null || true; \
-      fi
+           /hyprland-out/etc/pam.d/hyprlock && \
+        rmdir --ignore-fail-on-non-empty \
+            /hyprland-out/usr/etc/pam.d 2>/dev/null || true && \
+        rmdir --ignore-fail-on-non-empty \
+            /hyprland-out/usr/etc 2>/dev/null || true; \
+    fi
+
+
 
 # ============================================================================
 # Base Image
