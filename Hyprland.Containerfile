@@ -68,6 +68,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
       \
       dunst \
       \
+      libqalculate-devel \
       && dnf clean all
 
 COPY --from=ctx /hyprland_source /hyprland_source
