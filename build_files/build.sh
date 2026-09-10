@@ -21,7 +21,7 @@ dnf5 install -y tmux stow
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
-dnf5 copr enable lionheartp/Hyprland
+dnf5 -y copr enable lionheartp/Hyprland
 
 dnf5 install -y \
   hyprland \
@@ -30,9 +30,10 @@ dnf5 install -y \
   hyprland-guiutils \
   hyprpaper \
   noctalia-shell \
+  uwsm \
   xdg-desktop-portal-hyprland
 
-dnf5 copr disable lionheartp/Hyprland
+dnf5 -y copr disable lionheartp/Hyprland
 
 #### Example for enabling a System Unit File
 
