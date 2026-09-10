@@ -429,8 +429,8 @@ RUN DESTDIR=/hyprland-out cmake \
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/etc \
-    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/etc \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/usr \
     -S /hyprland_source/hyprlauncher \
     -B /tmp/hypr-build/hyprlauncher
 
