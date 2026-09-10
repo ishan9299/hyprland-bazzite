@@ -1,3 +1,4 @@
+
 ---
 name: Build container image
 on:
@@ -10,16 +11,8 @@ on:
     branches:
       - main
     paths-ignore:
-    # Ignore Hyprland files so pushing them doesn't trigger THIS workflow directly
-      - 'build_files/hyprland_source/**'
-      - '.gitmodules'
-      - 'Hyprland.Containerfile'
       - '**/README.md'
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Build Hyprland Cache"]
-    types:
-      - completed
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
@@ -40,10 +33,6 @@ jobs:
 
     steps:
       # These stage versions are pinned by https://github.com/renovatebot/renovate
-      - name: Fail if cache build failed
-        if: needs.build_hyprland.result == 'failure'
-        run: exit 1
-
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -173,4 +162,3 @@ jobs:
           # https://github.com/coreos/rpm-ostree/issues/5509
           # use old bundle format, so we can use newer cosign 3.X.X instead of 2.X.X
           cosign sign -y --new-bundle-format=false --use-signing-config=false --key env://COSIGN_PRIVATE_KEY ${IMAGE_REGISTRY}/${IMAGE_NAME}@${DIGEST}
-
