@@ -72,6 +72,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
       meson \
       curl \
       python3 \
+      python3-dbus \
       \
       libqalculate-devel \
       && dnf clean all
