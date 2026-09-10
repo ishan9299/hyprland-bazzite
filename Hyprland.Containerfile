@@ -76,10 +76,6 @@ RUN mkdir -p /hyprland-out/usr
 
 ENV PATH="/hyprland-out/usr/bin:${PATH}"
 
-# also search these locations for headers and libraries.
-ENV CPLUS_INCLUDE_PATH="/hyprland-out/usr/include"
-ENV LD_LIBRARY_PATH="/hyprland-out/usr/lib64:/hyprland-out/usr/lib:${LD_LIBRARY_PATH}"
-
 RUN cmake \
     --no-warn-unused-cli \
     -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -93,6 +89,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprland-protocols
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland-protocols
@@ -116,6 +115,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprwayland-scanner
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprwayland-scanner
 
@@ -137,6 +139,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprutils
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprutils
@@ -160,6 +165,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprgraphics
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprgraphics
 
@@ -181,6 +189,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprlang
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlang
@@ -204,6 +215,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprcursor
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprcursor
 
@@ -225,6 +239,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/aquamarine
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/aquamarine
@@ -248,6 +265,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/xdg-desktop-portal-hyprland
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/xdg-desktop-portal-hyprland
 
@@ -269,6 +289,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprwire
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprwire
@@ -292,6 +315,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprtoolkit
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprtoolkit
 
@@ -313,6 +339,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprland
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland
@@ -336,6 +365,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprpaper
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprpaper
 
@@ -358,6 +390,9 @@ RUN cmake \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
 
+RUN cmake \
+    --install /tmp/hypr-build/hyprland-guiutils
+
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprland-guiutils
 
@@ -379,6 +414,9 @@ RUN cmake \
     --config Release \
     --target all \
     -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprlock
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlock
