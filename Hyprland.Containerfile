@@ -422,6 +422,30 @@ RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlock
 
 # ============================================================================
+# hyprlauncher
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/etc \
+    -DCMAKE_PREFIX_PATH:PATH=/hyprland-out/etc \
+    -S /hyprland_source/hyprlauncher \
+    -B /tmp/hypr-build/hyprlauncher
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprlauncher \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN cmake \
+    --install /tmp/hypr-build/hyprlauncher
+
+RUN DESTDIR=/hyprland-out cmake \
+    --install /tmp/hypr-build/hyprlauncher
+
+# ============================================================================
 # EXPORT ARTIFACTS
 # ============================================================================
 FROM scratch

@@ -40,3 +40,6 @@
 [submodule "build_files/hyprland_source/hyprland-guiutils"]
 	path = build_files/hyprland_source/hyprland-guiutils
 	url = https://github.com/hyprwm/hyprland-guiutils
+[submodule "build_files/hyprland_source/hyprlauncher"]
+	path = build_files/hyprland_source/hyprlauncher
+	url = https://github.com/hyprwm/hyprlauncher
