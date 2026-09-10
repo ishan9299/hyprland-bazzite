@@ -1,16 +1,10 @@
 [Unit]
-Description=Hyprland - A dynamic tiling Wayland compositor
+Description=Hyprland — dynamic tiling Wayland compositor session
 Documentation=man:hyprland(1)
-BindsTo=hyprland-session.target
-Before=hyprland-session.target graphical-session.target
-PropagatesStopTo=hyprland-session.target graphical-session.target
+BindsTo=graphical-session.target
+Before=graphical-session.target plasma-polkit-agent.service xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
+Wants=plasma-polkit-agent.service xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
 After=graphical-session-pre.target
-OnSuccess=hyprland-session-shutdown.target
-OnSuccessJobMode=replace-irreversibly
-OnFailure=hyprland-session-shutdown.target
-OnFailureJobMode=replace-irreversibly
-Conflicts=hyprland-session-shutdown.target
-Before=hyprland-session-shutdown.target
 CollectMode=inactive-or-failed
 
 [Service]
@@ -22,9 +16,3 @@ TimeoutStartSec=60
 TimeoutStopSec=30
 SyslogIdentifier=hyprland
 Slice=session.slice
-
-# Hyprland with USES_SYSTEMD handles:
-# - systemd-notify when ready
-# - systemd environment import/export 
-# - dbus-update-activation-environment
-# - environment cleanup on exit 
