@@ -68,6 +68,10 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
       \
       dunst \
       \
+      scdoc \
+      curl \
+      python3 \
+      \
       libqalculate-devel \
       && dnf clean all
 
@@ -76,6 +80,7 @@ COPY --from=ctx /hyprland_source /hyprland_source
 RUN mkdir -p /hyprland-out/usr
 
 ENV PATH="/hyprland-out/usr/bin:${PATH}"
+ENV UWSM_TAG="0.26.7"
 
 RUN cmake \
     --no-warn-unused-cli \
@@ -445,6 +450,24 @@ RUN cmake \
 
 RUN DESTDIR=/hyprland-out cmake \
     --install /tmp/hypr-build/hyprlauncher
+
+# ============================================================================
+# uwsm
+# ============================================================================
+
+RUN mkdir -p /tmp/uwsm && \
+    curl -L "https://github.com/Vladimir-csp/uwsm/archive/refs/tags/v${UWSM_TAG}.tar.gz" \
+        -o "/tmp/uwsm/uwsm-v${UWSM_TAG}.tar.gz" && \
+    tar -xzf "/tmp/uwsm/uwsm-v${UWSM_TAG}.tar.gz" -C /tmp/uwsm && \
+    cd "/tmp/uwsm/uwsm-${UWSM_TAG}" && \
+    meson setup \
+        --prefix=/usr/local \
+        -Duuctl=enabled \
+        -Dfumon=enabled \
+        -Duwsm-app=enabled \
+        -Dttyautolock=enabled \
+        build && \
+    DESTDIR=/hyprland-out meson install -C build
 
 # ============================================================================
 # EXPORT ARTIFACTS
