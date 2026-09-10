@@ -69,6 +69,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
       dunst \
       \
       scdoc \
+      meson \
       curl \
       python3 \
       \
