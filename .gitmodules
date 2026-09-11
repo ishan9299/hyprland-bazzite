@@ -67,9 +67,3 @@
 [submodule "build_files/hyprland_ecosystem_source/hyprshutdown"]
 	path = build_files/hyprland_ecosystem_source/hyprshutdown
 	url = https://github.com/hyprwm/hyprshutdown
-[submodule "build_files/hyprland_ecosystem_source/hyprtoolkit"]
-	path = build_files/hyprland_ecosystem_source/hyprtoolkit
-	url = https://github.com/hyprwm/hyprtoolkit
-[submodule "build_files/hyprland_ecosystem_source/hyprcursor"]
-	path = build_files/hyprland_ecosystem_source/hyprcursor
-	url = https://github.com/hyprwm/hyprcursor
