@@ -27,6 +27,6 @@ COPY --from=ctx /quickshell_source /quickshell_source
 RUN cmake -GNinja \
       -S /quickshell_source/quickshell \
       -B /tmp/build -DCMAKE_BUILD_TYPE=Release \
-      -DVENDOR_CPPTRACE=ON
+      -DCMAKE_CXX_FLAGS="-pthread" -DVENDOR_CPPTRACE=ON
 
 RUN DESTDIR=/quickshell-out ninja -C /tmp/build install
