@@ -20,7 +20,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        run: |
+          git clone --no-recurse-submodules "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" .
+          git checkout "$GITHUB_SHA"
 
       - name: Install Podman
         run: |

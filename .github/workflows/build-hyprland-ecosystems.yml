@@ -38,7 +38,12 @@ jobs:
     steps:
       - name: Checkout
         run: |
-          git submodule -C ./build_files/hyprland_ecosystem_source \
+          git clone --no-recurse-submodules "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" .
+          git checkout "$GITHUB_SHA"
+
+      - name: Get all submodules
+        run: |
+          git submodule -C build_files/hyprland_ecosystem_source \
           submodule update --init --recursive
 
       - name: Install Podman
@@ -68,10 +73,10 @@ jobs:
           podman build \
             --progress=plain \
             --file Hyprland_Ecosystem.Containerfile \
-            --tag ghcr.io/${{ github.repository_owner }}/hyprland-ecosystems:latest \
+            --tag ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem:latest \
             .
 
-      - name: Push Hyprland Base Packages
+      - name: Push Hyprland Ecosystem
         run: |
           podman push \
-            ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest
+            ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem:latest
