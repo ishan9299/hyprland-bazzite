@@ -1,6 +1,8 @@
 ARG FEDORA_VERSION
 FROM quay.io/fedora/fedora:${FEDORA_VERSION} AS quickshell-builder
 
+COPY build_files /
+
 RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
