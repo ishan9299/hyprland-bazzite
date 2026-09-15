@@ -9,6 +9,7 @@ on:
     paths:
       - 'Quickshell.Containerfile'
       - 'build_files/quickshell_source'
+  workflow_dispatch:
 
 jobs:
   build:

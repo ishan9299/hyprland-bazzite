@@ -16,7 +16,6 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
 ENV CC=clang
 ENV CXX=clang++
 
-
 RUN cmake -GNinja -B build -DCMAKE_BUILD_TYPE=Release
 
 RUN DESTDIR=/quickshell-out ninja -C build install
