@@ -2,7 +2,7 @@ FROM scratch as ctx
 COPY build_files /
 
 ARG FEDORA_VERSION
-FROM quay.io/fedora/fedora:${FEDORA_VERSION} AS quickshell-builder
+FROM quay.io/fedora/fedora:${FEDORA_VERSION}:stable AS quickshell-builder
 
 
 RUN --mount=type=cache,dst=/var/cache/dnf \
