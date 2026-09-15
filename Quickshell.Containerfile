@@ -11,7 +11,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     pkgconf-pkg-config cli11-devel qt6-qtwayland-devel \
     wayland-devel wayland-protocols-devel mesa-libgbm-devel \
     vulkan-headers libxcb-devel pipewire-devel \
-    polkit-devel glib2-devel pam-devel && && dnf clean
+    polkit-devel glib2-devel pam-devel && dnf clean
 
 ENV CC=clang
 ENV CXX=clang++
