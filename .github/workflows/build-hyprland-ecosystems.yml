@@ -5,10 +5,12 @@ on:
     paths:
       - 'Hyprland_Ecosystem.Containerfile'
       - 'Hyprland.Containerfile'
+      - 'build_files/hyprland_ecosystem_source'
   pull_request:
     paths:
       - 'Hyprland_Ecosystem.Containerfile'
       - 'Hyprland.Containerfile'
+      - 'build_files/hyprland_ecosystem_source'
   workflow_run:
     workflows:
       - "Build Hyprland Artifacts"

@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'Hyprland.Containerfile'
+      - 'build_files/hyprland_source'
   pull_request:
     paths:
       - 'Hyprland.Containerfile'
+      - 'build_files/hyprland_source'
   workflow_run:
     workflows: ["Build Hyprland Base Packages"]
     types:
