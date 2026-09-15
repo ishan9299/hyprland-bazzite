@@ -1,0 +1,60 @@
+name: Build Hyprland Ecosystem
+
+on:
+  push:
+    paths:
+      - 'Hyprland_Ecosystem.Containerfile'
+      - 'Hyprland.Containerfile'
+  pull_request:
+    paths:
+      - 'Hyprland_Ecosystem.Containerfile'
+      - 'Hyprland.Containerfile'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Pull Hyprland Base Packages
+        run: |
+          podman pull \
+            ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest
+
+      - name: Pull Hyprland Artifacts
+        run: |
+          podman pull \
+            ghcr.io/${{ github.repository_owner }}/hyprland-artifacts:latest
+
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            podman login ghcr.io \
+            --username "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Build Hyprland Ecosystem
+        run: |
+          podman build \
+            --progress=plain \
+            --file Hyprland_Ecosystem.Containerfile \
+            --tag ghcr.io/${{ github.repository_owner }}/hyprland-ecosystems:latest \
+            --build-arg BUILDER_BASE_IMAGE=ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest \
+            --build-arg HYPRLAND_IMAGE=ghcr.io/${{ github.repository_owner }}/hyprland-artifacts:latest \
+            .
+
+      - name: Push Hyprland Base Packages
+        run: |
+          podman push \
+            ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest

@@ -1,0 +1,43 @@
+name: Build Hyprland Base Packages
+
+on:
+  push:
+    paths:
+      - 'Hyprland_Base_Packages.Containerfile'
+  pull_request:
+    paths:
+      - 'Hyprland_Base_Packages.Containerfile'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            podman login ghcr.io \
+            --username "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Build Hyprland Base Packages
+        run: |
+          podman build \
+            --pull=always \
+            --file Hyprland_Base_Packages.Containerfile \
+            --tag ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest \
+            .
+
+      - name: Push Hyprland Base Packages
+        run: |
+          podman push \
+            ghcr.io/${{ github.repository_owner }}/hyprland-base-packages:latest
