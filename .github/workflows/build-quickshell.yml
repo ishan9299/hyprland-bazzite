@@ -38,10 +38,13 @@ jobs:
         run: |
           git submodule update --init --recursive -- ./build_files/quickshell_source
 
+      - name: Install just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 #v4.0.0
+
       - name: Install Podman
         run: |
           sudo apt-get update
-          sudo apt-get install -y podman just
+          sudo apt-get install -y podman
 
       - name: Login to GHCR
         run: |
