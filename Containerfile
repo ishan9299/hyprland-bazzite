@@ -15,6 +15,10 @@ COPY system_files /system_files
 
 FROM ghcr.io/ublue-os/bazzite-dx:stable
 
+COPY --from=ghcr.io/ishan9299/hyprland-artifacts:latest / /
+COPY --from=ghcr.io/ishan9299/hyprland-ecosystem:latest / /
+COPY --from=ghcr.io/ishan9299/quickshell-artifacts:latest /quickshell-out /
+
 # ============================================================================
 # Image modifications
 # ============================================================================
