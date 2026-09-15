@@ -50,6 +50,9 @@ RUN mkdir -p /hyprland-ecosystem-out/usr
 
 ENV PATH="/hyprland-ecosystem-out/usr/bin:${PATH}"
 
+ENV CC=gcc
+ENV CXX=g++
+
 # Allow CMake/pkg-config to find the artifacts produced by Hyprland.
 ENV CMAKE_PREFIX_PATH="/usr:/hyprland-ecosystem-out/usr"
 ENV PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig:/hyprland-ecosystem-out/usr/lib64/pkgconfig:/hyprland-ecosystem-out/usr/share/pkgconfig"

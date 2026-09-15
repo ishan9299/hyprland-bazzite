@@ -5,7 +5,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     dnf5 -y install \
-    clang lld cmake ninja-build git curl \
+    gcc gcc-c++ clang lld cmake ninja-build git curl \
     pugixml-devel \
     pixman-devel cairo-devel libjpeg-turbo-devel libwebp-devel \
     libjxl-devel file-devel libpng-devel librsvg2-devel \
@@ -24,6 +24,3 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     pciutils-devel qt6-qtbase-devel qt6-qtbase-private-devel \
     qt6-qtwayland-devel \
     && dnf clean all
-
-ENV CC=clang
-ENV CXX=clang++

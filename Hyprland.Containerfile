@@ -11,6 +11,9 @@ RUN mkdir -p /hyprland-out/usr
 
 ENV PATH="/hyprland-out/usr/bin:${PATH}"
 
+ENV CC=gcc
+ENV CXX=g++
+
 # ============================================================================
 # hyprland-protocols
 # ============================================================================
