@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora:44@sha256:2f642b05977b30ec43dacb7a6706f3204a861d4a0d8f72cff734f111801ad461 AS hyprland_builder_base
+FROM quay.io/fedora/fedora:44
 
 RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=cache,dst=/var/cache \
