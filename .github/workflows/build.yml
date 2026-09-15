@@ -5,16 +5,19 @@ on:
   push:
     paths:
       - 'Containerfile'
-      - 'build_files/build.sh'
+      - 'build_files/'
+      - 'system_files/'
   pull_request:
     paths:
       - 'Containerfile'
-      - 'build_files/build.sh'
+      - 'build_files/'
+      - 'system_files/'
   schedule:
     - cron: '05 10 * * *'  # 10:05am UTC everyday
   workflow_run:
     workflows:
       - "Build Hyprland Ecosystem"
+      - "Build Quickshell Artifacts"
     types:
       - completed
 
