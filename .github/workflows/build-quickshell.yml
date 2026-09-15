@@ -50,15 +50,24 @@ jobs:
             --username "${{ github.actor }}" \
             --password-stdin
 
+      - name: Get Fedora Version
+        run: |
+          FEDORA_VERSION=$(just fedora_version)
+          echo "FEDORA_VERSION=${FEDORA_VERSION}" >> $GITHUB_ENV
+
       - name: Build Quickshell
         run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/quickshell-artifacts"
           podman build \
             --progress=plain \
             --file Quickshell.Containerfile \
-            --tag ghcr.io/${{ github.repository_owner }}/quickshell-artifacts:latest \
+            --tag "${IMAGE}/${GITHUB_SHA}" \
+            --tag "${IMAGE}:latest" \
+            --build-arg FEDORA_VERSION=${FEDORA_VERSION} \
             .
 
       - name: Push Hyprland Base Packages
         run: |
-          podman push \
-            ghcr.io/${{ github.repository_owner }}/quickshell-artifacts:latest
+          IMAGE="ghcr.io/${{ github.repository_owner }}/quickshell-artifacts"
+          podman push "${IMAGE}:${GITHUB_SHA}"
+          podman push "${IMAGE}:latest"
