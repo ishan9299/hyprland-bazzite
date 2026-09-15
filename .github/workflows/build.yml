@@ -7,11 +7,12 @@ on:
       - main
   schedule:
     - cron: '05 10 * * *'  # 10:05am UTC everyday
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '**/README.md'
+  workflow_run:
+    workflows:
+      - "Build Hyprland Ecosystem"
+    types:
+      - completed
+
   workflow_dispatch:
 
 env:
@@ -23,6 +24,14 @@ concurrency:
 
 jobs:
   build_push:
+
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success'
+      )
+
     name: Build and push image
     runs-on: ubuntu-26.04
 
