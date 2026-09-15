@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
   "extends": [
-    "config:best-practices",
+    "config:best-practices"
   ],
 
   "rebaseWhen": "never",
@@ -9,13 +10,37 @@
   "packageRules": [
     {
       "automerge": true,
-      "matchUpdateTypes": ["pin", "pinDigest"]
+      "matchUpdateTypes": [
+        "pin",
+        "pinDigest",
+        "digest"
+      ]
     },
     {
       "enabled": false,
-      "matchUpdateTypes": ["digest", "pinDigest", "pin"],
-      "matchDepTypes": ["container"],
-      "matchFileNames": [".github/workflows/**.yaml", ".github/workflows/**.yml"],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "pin"
+      ],
+      "matchDepTypes": [
+        "container"
+      ],
+      "matchFileNames": [
+        ".github/workflows/**.yaml",
+        ".github/workflows/**.yml"
+      ]
     },
+    {
+      "groupName": "Internal artifact images",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/ishan9299/hyprland-artifacts",
+        "ghcr.io/ishan9299/hyprland-ecosystems",
+        "ghcr.io/ishan9299/quickshell-artifacts"
+      ]
+    }
   ]
 }

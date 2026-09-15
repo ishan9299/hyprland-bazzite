@@ -62,13 +62,16 @@ jobs:
 
       - name: Build Hyprland
         run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-artifacts"
           podman build \
             --progress=plain \
             --file Hyprland.Containerfile \
-            --tag ghcr.io/${{ github.repository_owner }}/hyprland-artifacts:latest \
+            --tag "${IMAGE}:${GITHUB_SHA}" \
+            --tag "${IMAGE}:latest" \
             .
 
       - name: Push Hyprland Artifacts
         run: |
-          podman push \
-            ghcr.io/${{ github.repository_owner }}/hyprland-artifacts:latest
+          IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-artifacts"
+          podman push "${IMAGE}:${GITHUB_SHA}"
+          podman push "${IMAGE}:latest"

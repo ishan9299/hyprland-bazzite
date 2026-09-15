@@ -69,13 +69,16 @@ jobs:
 
       - name: Build Hyprland Ecosystem
         run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem"
           podman build \
             --progress=plain \
             --file Hyprland_Ecosystem.Containerfile \
-            --tag ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem:latest \
+            --tag "${IMAGE}:${GITHUB_SHA}" \
+            --tag "${IMAGE}:latest" \
             .
 
       - name: Push Hyprland Ecosystem
         run: |
-          podman push \
-            ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem:latest
+          IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-ecosystem"
+          podman push "${IMAGE}:${GITHUB_SHA}"
+          podman push "${IMAGE}:latest"

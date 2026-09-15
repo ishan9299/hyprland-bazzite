@@ -1,4 +1,5 @@
-FROM quay.io/fedora/fedora:44
+ARG FEDORA_VERSION
+FROM quay.io/fedora/fedora:${FEDORA_VERSION}
 
 RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=cache,dst=/var/cache \

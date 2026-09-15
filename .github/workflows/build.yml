@@ -14,12 +14,6 @@ on:
       - 'system_files/'
   schedule:
     - cron: '05 10 * * *'  # 10:05am UTC everyday
-  workflow_run:
-    workflows:
-      - "Build Hyprland Ecosystem"
-      - "Build Quickshell Artifacts"
-    types:
-      - completed
 
   workflow_dispatch:
 
