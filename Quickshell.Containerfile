@@ -17,7 +17,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     wayland-devel wayland-protocols-devel mesa-libgbm-devel \
     vulkan-headers libxcb-devel pipewire-devel \
     polkit-devel glib2-devel pam-devel qt6-qtbase-private-devel \
-    && dnf clean all
+    jemalloc-devel && dnf clean all
 
 ENV CC=clang
 ENV CXX=clang++
