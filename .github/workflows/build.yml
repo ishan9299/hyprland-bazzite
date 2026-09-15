@@ -2,9 +2,14 @@
 ---
 name: Build container image
 on:
+  push:
+    paths:
+      - 'Containerfile'
+      - 'build_files/build.sh'
   pull_request:
-    branches:
-      - main
+    paths:
+      - 'Containerfile'
+      - 'build_files/build.sh'
   schedule:
     - cron: '05 10 * * *'  # 10:05am UTC everyday
   workflow_run:

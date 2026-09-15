@@ -15,26 +15,16 @@ cp -avf "/ctx/system_files"/. /
 # this installs a package from fedora repos
 dnf5 install -y tmux stow
 
+chmod +x /usr/bin/start-hyprland-session
+
 # Use a COPR Example:
 #
 # dnf5 -y copr enable ublue-os/staging
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
-dnf5 -y copr enable lionheartp/Hyprland
-
-dnf5 install -y \
-  hyprland \
-  hyprlauncher \
-  hyprcursor \
-  hyprland-guiutils \
-  hyprpaper \
-  noctalia-shell \
-  uwsm \
-  xdg-desktop-portal-hyprland
-
-dnf5 -y copr disable lionheartp/Hyprland
 
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+systemctl --global enable hyprland.service

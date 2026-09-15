@@ -1,18 +1,14 @@
 [Unit]
-Description=Hyprland — dynamic tiling Wayland compositor session
-Documentation=man:hyprland(1)
-BindsTo=graphical-session.target
-Before=graphical-session.target plasma-polkit-agent.service xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
-Wants=plasma-polkit-agent.service xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
-After=graphical-session-pre.target
-CollectMode=inactive-or-failed
+Description=Hyprland - Wayland compositor
+Documentation=https://wiki.hypr.land
+PartOf=hyprland-session.target
+Before=hyprland-session.target
 
 [Service]
 Type=notify
-NotifyAccess=all
 ExecStart=/usr/bin/start-hyprland
 Restart=no
-TimeoutStartSec=60
-TimeoutStopSec=30
-SyslogIdentifier=hyprland
-Slice=session.slice
+TimeoutStopSec=10
+
+[Install]
+WantedBy=hyprland-session.target
