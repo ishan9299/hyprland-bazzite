@@ -50,7 +50,6 @@ jobs:
           podman build \
             --pull=always \
             --file Hyprland_Base_Packages.Containerfile \
-            --tag "${IMAGE}:${GITHUB_SHA}" \
             --tag "${IMAGE}:latest" \
             --build-arg FEDORA_VERSION=${FEDORA_VERSION} \
             .
@@ -58,5 +57,4 @@ jobs:
       - name: Push Hyprland Base Packages
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-base-packages"
-          podman push "${IMAGE}:${GITHUB_SHA}"
           podman push "${IMAGE}:latest"

@@ -64,7 +64,6 @@ jobs:
           podman build \
             --progress=plain \
             --file Quickshell.Containerfile \
-            --tag "${IMAGE}:${GITHUB_SHA}" \
             --tag "${IMAGE}:latest" \
             --build-arg FEDORA_VERSION=${FEDORA_VERSION} \
             .
@@ -72,5 +71,4 @@ jobs:
       - name: Push Quickshell Base Packages
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/quickshell-artifacts"
-          podman push "${IMAGE}:${GITHUB_SHA}"
           podman push "${IMAGE}:latest"
