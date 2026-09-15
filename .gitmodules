@@ -67,3 +67,6 @@
 [submodule "build_files/hyprland_ecosystem_source/hyprshutdown"]
 	path = build_files/hyprland_ecosystem_source/hyprshutdown
 	url = https://github.com/hyprwm/hyprshutdown
+[submodule "build_files/quickshell_source/quickshell"]
+	path = build_files/quickshell_source/quickshell
+	url = https://git.outfoxxed.me/quickshell/quickshell
