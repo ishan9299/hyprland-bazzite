@@ -43,8 +43,7 @@ jobs:
 
       - name: Get all submodules
         run: |
-          git -C build_files/hyprland_ecosystem_source \
-          submodule update --init --recursive
+          git submodule update --init --recursive -- ./build_files/hyprland_ecosystem_source
 
       - name: Install Podman
         run: |

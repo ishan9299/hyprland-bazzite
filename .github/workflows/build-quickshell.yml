@@ -36,8 +36,7 @@ jobs:
 
       - name: Get all submodules
         run: |
-          git -C ./build_files/quickshell_source \
-          submodule update --init --recursive
+          git submodule update --init --recursive -- ./build_files/quickshell_source
 
       - name: Install Podman
         run: |
