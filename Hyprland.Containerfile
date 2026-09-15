@@ -1,4 +1,4 @@
-ARG BUILDER_BASE_IMAGE=localhost/hyprland-base-packages:latest
+ARG BUILDER_BASE_IMAGE=ghcr.io/ishan9299/hyprland-base-packages:latest
 FROM scratch as ctx
 
 COPY build_files /
