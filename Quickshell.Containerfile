@@ -1,4 +1,5 @@
-FROM quay.io/fedora/fedora:44 AS quickshell-builder
+ARG FEDORA_VERSION
+FROM quay.io/fedora/fedora:${FEDORA_VERSION} AS quickshell-builder
 
 RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=cache,dst=/var/cache \
@@ -11,10 +12,12 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     pkgconf-pkg-config cli11-devel qt6-qtwayland-devel \
     wayland-devel wayland-protocols-devel mesa-libgbm-devel \
     vulkan-headers libxcb-devel pipewire-devel \
-    polkit-devel glib2-devel pam-devel && dnf clean
+    polkit-devel glib2-devel pam-devel && dnf clean all
 
 ENV CC=clang
 ENV CXX=clang++
+
+COPY --from=ctx /quickshell_source /quickshell_source
 
 RUN cmake -GNinja -B build -DCMAKE_BUILD_TYPE=Release
 
