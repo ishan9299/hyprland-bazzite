@@ -243,6 +243,14 @@ image_name $target_image=image_name:
 
     echo "${image_name}"
 
+# Fedora Version
+[group('Utility')]
+[private]
+fedora_version $target_image=fedora_version:
+    #!/usr/bin/env bash
+    set -eoux pipefail
+
+    echo "${fedora_version}"
 # Command: _rootful_load_image
 # Description: This script checks if the current user is root or running under sudo. If not, it attempts to resolve the image tag using podman inspect.
 #              If the image is found, it loads it into rootful podman. If the image is not found, it pulls it from the repository.
