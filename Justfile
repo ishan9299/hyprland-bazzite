@@ -1,6 +1,7 @@
 set dotenv-filename := "image-template.env"
 set dotenv-load
 
+export fedora_version := env_var("FEDORA_VERSION")
 export image_name := env_var("IMAGE_NAME")
 export repo_organization := env_var("REPO_ORGANIZATION")
 export image_desc := env_var("IMAGE_DESC")
