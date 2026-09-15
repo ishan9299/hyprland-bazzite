@@ -6,7 +6,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     --mount=type=tmpfs,dst=/tmp \
     dnf5 -y install \
     clang lld cmake ninja-build git \
-    qt6-qtbase-devel qt6-declarative-devel \
+    qt6-qtbase-devel qt6-qtdeclarative-devel \
     libdrm-devel qt6-qtshadertools-devel spirv-tools-devel \
     pkgconf-pkg-config cli11-devel qt6-qtwayland-devel \
     wayland-devel wayland-protocols-devel mesa-libgbm-devel \
