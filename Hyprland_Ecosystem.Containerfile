@@ -290,6 +290,26 @@ RUN cmake \
 RUN DESTDIR=/hyprland-ecosystem-out cmake \
     --install /tmp/hypr-build/hyprshutdown
 
+# ============================================================================
+# hyprguiutils
+# ============================================================================
+
+RUN cmake \
+    --no-warn-unused-cli \
+    -DCMAKE_BUILD_TYPE:STRING=Release \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+    -DCMAKE_PREFIX_PATH:PATH=/usr \
+    -S /hyprland_ecosystem_source/hyprland-guiutils \
+    -B /tmp/hypr-build/hyprland-guiutils
+
+RUN cmake \
+    --build /tmp/hypr-build/hyprland-guiutils \
+    --config Release \
+    --target all \
+    -j "$(nproc 2>/dev/null || getconf _NPROCESSORS_CONF)"
+
+RUN DESTDIR=/hyprland-ecosystem-out cmake \
+    --install /tmp/hypr-build/hyprland-guiutils
 
 # ============================================================================
 # EXPORT ECOSYSTEM ARTIFACTS
