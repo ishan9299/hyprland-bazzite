@@ -23,6 +23,8 @@ ENV CXX=clang++
 
 COPY --from=ctx /quickshell_source /quickshell_source
 
-RUN cmake -GNinja -B build -DCMAKE_BUILD_TYPE=Release
+RUN cmake -GNinja \
+      -S /quickshell_source/quickshell \
+      -B /tmp/build -DCMAKE_BUILD_TYPE=Release
 
 RUN DESTDIR=/quickshell-out ninja -C build install
