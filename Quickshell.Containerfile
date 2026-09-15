@@ -29,4 +29,4 @@ RUN cmake -GNinja \
       -B /tmp/build -DCMAKE_BUILD_TYPE=Release \
       -DVENDOR_CPPTRACE=ON
 
-RUN DESTDIR=/quickshell-out ninja -C build install
+RUN DESTDIR=/quickshell-out ninja -C /tmp/build install
