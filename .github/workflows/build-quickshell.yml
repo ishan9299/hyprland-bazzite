@@ -1,0 +1,64 @@
+name: Build Quickshell Artifacts
+
+on:
+  push:
+    paths:
+      - 'Quickshell.Containerfile'
+      - 'build_files/quickshell_source'
+  pull_request:
+    paths:
+      - 'Quickshell.Containerfile'
+      - 'build_files/quickshell_source'
+
+jobs:
+  build:
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success'
+      )
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        run: |
+          git clone --no-recurse-submodules "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" .
+          git checkout "$GITHUB_SHA"
+
+      - name: Get all submodules
+        run: |
+          git submodule -C ./build_files/quickshell_source \
+          submodule update --init --recursive
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            podman login ghcr.io \
+            --username "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Build Quickshell
+        run: |
+          podman build \
+            --progress=plain \
+            --file Quickshell.Containerfile \
+            --tag ghcr.io/${{ github.repository_owner }}/quickshell-artifacts:latest \
+            .
+
+      - name: Push Hyprland Base Packages
+        run: |
+          podman push \
+            ghcr.io/${{ github.repository_owner }}/quickshell-artifacts:latest
