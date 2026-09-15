@@ -67,7 +67,6 @@ jobs:
             --progress=plain \
             --file Hyprland.Containerfile \
             --tag ghcr.io/${{ github.repository_owner }}/hyprland-artifacts:latest \
-            --build-arg BUILDER_BASE_IMAGE=ghcr.io/${{ github.repository.owner }}/hyprland-base-packages:latest \
             .
 
       - name: Push Hyprland Base Packages

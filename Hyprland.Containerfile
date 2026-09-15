@@ -1,10 +1,9 @@
-ARG BUILDER_BASE_IMAGE=ghcr.io/ishan9299/hyprland-base-packages:latest
 FROM scratch as ctx
 
 COPY build_files /
 COPY system_files /system_files
 
-FROM ${BUILDER_BASE_IMAGE} AS hyprland_builder
+FROM ghcr.io/ishan9299/hyprland-base-packages:latest AS hyprland_builder
 
 COPY --from=ctx /hyprland_source /hyprland_source
 
