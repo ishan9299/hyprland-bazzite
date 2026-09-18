@@ -16,7 +16,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
     util-linux newt libnotify \
     inotify-tools curl tar && dnf clean all
 
-RUN curl -L -C - --retry 3 \
+RUN curl -fL -C - --retry 3 --retry-all-errors \
 -o /tmp/uwsm-${UWSM_VERSION}.tar.gz \
 https://github.com/Vladimir-csp/uwsm/archive/refs/tags/v${UWSM_VERSION}.tar.gz
 
