@@ -2,6 +2,7 @@
 Description=Hyprland - Wayland compositor
 Documentation=https://wiki.hypr.land
 PartOf=hyprland-session.target
+After=graphical-session-pre.target
 Before=hyprland-session.target
 
 [Service]

@@ -1,41 +1,17 @@
-
 ---
 name: Build container image
-on:
-  push:
-    paths:
-      - 'Containerfile'
-      - 'build_files/'
-      - 'system_files/'
-  pull_request:
-    paths:
-      - 'Containerfile'
-      - 'build_files/'
-      - 'system_files/'
-  schedule:
-    - cron: '05 10 * * *'  # 10:05am UTC everyday
 
+# Triggered by pipeline.yml (workflow_call) or manually.
+# Path filters, schedule and concurrency now live in the orchestrator.
+on:
+  workflow_call:
   workflow_dispatch:
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
-  cancel-in-progress: true
-
 jobs:
   build_push:
-
-    if: >
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request' ||
-      github.event_name == 'workflow_dispatch' ||
-      (
-        github.event_name == 'workflow_run' &&
-        github.event.workflow_run.conclusion == 'success'
-      )
-
     name: Build and push image
     runs-on: ubuntu-26.04
 

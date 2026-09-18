@@ -1,12 +1,7 @@
 name: Build Hyprland Base Packages
 
 on:
-  push:
-    paths:
-      - 'Hyprland_Base_Packages.Containerfile'
-  pull_request:
-    paths:
-      - 'Hyprland_Base_Packages.Containerfile'
+  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -20,9 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        run: |
-          git clone --no-recurse-submodules "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" .
-          git checkout "$GITHUB_SHA"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install just
         uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 #v4.0.0
@@ -55,6 +48,7 @@ jobs:
             .
 
       - name: Push Hyprland Base Packages
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/hyprland-base-packages"
           podman push "${IMAGE}:latest"

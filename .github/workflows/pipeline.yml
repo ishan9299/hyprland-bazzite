@@ -1,0 +1,143 @@
+---
+name: Pipeline
+
+on:
+  push:
+    branches: [main]          # change to your default branch; avoids double runs on PR branches
+  pull_request:
+  schedule:
+    - cron: '05 10 * * *'     # 10:05am UTC everyday, rebuilds only the base image
+  workflow_dispatch:          # manual run rebuilds everything
+
+concurrency:
+  group: pipeline-${{ github.workflow }}-${{ github.ref }}
+  # Only cancel superseded PR runs. Cancelling a run on the default branch mid-push
+  # could leave the GHCR artifact images half-updated.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Called workflows cannot get more permissions than the caller grants.
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Path filtering (reusable-workflow calls have no `paths:` of their own)
+  # ---------------------------------------------------------------------------
+  changes:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      base: ${{ steps.f.outputs.base }}
+      hyprland: ${{ steps.f.outputs.hyprland }}
+      ecosystem: ${{ steps.f.outputs.ecosystem }}
+      quickshell: ${{ steps.f.outputs.quickshell }}
+      uwsm: ${{ steps.f.outputs.uwsm }}
+      image: ${{ steps.f.outputs.image }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Filter paths
+        id: f
+        uses: dorny/paths-filter@v3   # pin to a commit SHA like your other actions
+        with:
+          # Submodules show up as a single gitlink path, so each submodule
+          # is listed both bare and with /** to catch pointer bumps and file changes.
+          filters: |
+            base:
+              - 'Hyprland_Base_Packages.Containerfile'
+            hyprland:
+              - 'Hyprland.Containerfile'
+              - 'build_files/hyprland_source'
+              - 'build_files/hyprland_source/**'
+            ecosystem:
+              - 'Hyprland_Ecosystem.Containerfile'
+              - 'build_files/hyprland_ecosystem_source'
+              - 'build_files/hyprland_ecosystem_source/**'
+            quickshell:
+              - 'Quickshell.Containerfile'
+              - 'build_files/quickshell_source'
+              - 'build_files/quickshell_source/**'
+            uwsm:
+              - 'UWSM.Containerfile'
+            image:
+              - 'Containerfile'
+              - 'build_files/**'
+              - 'system_files/**'
+
+  # ---------------------------------------------------------------------------
+  # Hyprland chain: base packages -> hyprland -> ecosystem
+  # ---------------------------------------------------------------------------
+  base-packages:
+    needs: [changes]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.base == 'true'
+      )
+    uses: ./.github/workflows/build-hyprland-base-package.yml
+
+  hyprland:
+    needs: [changes, base-packages]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.hyprland == 'true' ||
+        needs.base-packages.result == 'success'
+      )
+    uses: ./.github/workflows/build-hyprland.yml
+
+  ecosystem:
+    needs: [changes, base-packages, hyprland]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.ecosystem == 'true' ||
+        needs.hyprland.result == 'success'
+      )
+    uses: ./.github/workflows/build-hyprland-ecosystems.yml
+
+  # ---------------------------------------------------------------------------
+  # Independent roots (run in parallel with the Hyprland chain)
+  # ---------------------------------------------------------------------------
+  quickshell:
+    needs: [changes]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.quickshell == 'true'
+      )
+    uses: ./.github/workflows/build-quickshell.yml
+
+  uwsm:
+    needs: [changes]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        needs.changes.outputs.uwsm == 'true'
+      )
+    uses: ./.github/workflows/build-uwsm.yml
+
+  # ---------------------------------------------------------------------------
+  # Final base image. Lists every upstream in `needs` so a failure anywhere
+  # blocks it, even when an intermediate job was skipped.
+  # ---------------------------------------------------------------------------
+  image:
+    needs: [changes, base-packages, hyprland, ecosystem, quickshell, uwsm]
+    if: >-
+      !cancelled() && !contains(needs.*.result, 'failure') && (
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'schedule' ||
+        needs.changes.outputs.image == 'true' ||
+        needs.ecosystem.result == 'success' ||
+        needs.quickshell.result == 'success' ||
+        needs.uwsm.result == 'success'
+      )
+    uses: ./.github/workflows/build.yml
+    secrets: inherit          # needed for SIGNING_SECRET
