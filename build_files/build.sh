@@ -13,7 +13,12 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y tmux stow muParser tomlplusplus iniparser jemalloc
+dnf5 install -y \
+  tmux stow muParser \
+  tomlplusplus iniparser jemalloc \
+  dunst python3-pyxdg python3-dbus \
+  util-linux newt libnotify \
+  inotify-tools
 
 chmod +x /usr/bin/start-hyprland-session
 
