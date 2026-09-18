@@ -18,6 +18,7 @@ FROM ghcr.io/ublue-os/bazzite-dx:stable
 COPY --from=ghcr.io/ishan9299/hyprland-artifacts:latest / /
 COPY --from=ghcr.io/ishan9299/hyprland-ecosystem:latest / /
 COPY --from=ghcr.io/ishan9299/quickshell-artifacts:latest /quickshell-out /
+COPY --from=ghcr.io/ishan9299/uwsm-artifacts:latest /uwsm-out /
 
 # ============================================================================
 # Image modifications
