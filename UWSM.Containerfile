@@ -3,7 +3,7 @@ COPY build_files /
 
 ARG UWSM_VERSION=0.27.0
 ARG FEDORA_VERSION
-FROM quay.io/fedora/fedora:${FEDORA_VERSION}:stable AS quickshell-builder
+FROM quay.io/fedora/fedora:${FEDORA_VERSION} AS uwsm-builder
 
 
 RUN --mount=type=cache,dst=/var/cache/dnf \
