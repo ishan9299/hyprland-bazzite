@@ -45,7 +45,7 @@ jobs:
 
       - name: Filter paths
         id: f
-        uses: dorny/paths-filter@v3   # pin to a commit SHA like your other actions
+        uses: dorny/paths-filter@v4   # pin to a commit SHA like your other actions
         with:
           # Submodules show up as a single gitlink path, so each submodule
           # is listed both bare and with /** to catch pointer bumps and file changes.
