@@ -18,7 +18,7 @@ RUN --mount=type=cache,dst=/var/cache/dnf \
 
 RUN curl -fL -C - --retry 3 --retry-all-errors \
 -o /tmp/uwsm-${UWSM_VERSION}.tar.gz \
-https://github.com/Vladimir-csp/uwsm/archive/refs/tags/v${UWSM_VERSION}.tar.gz
+"https://github.com/Vladimir-csp/uwsm/archive/refs/tags/v${UWSM_VERSION}.tar.gz"
 
 RUN tar -xvf "/tmp/uwsm-${UWSM_VERSION}.tar.gz" -C /tmp
 
@@ -28,7 +28,7 @@ RUN meson setup \
     -Dfumon=enabled \
     -Duwsm-app=enabled \
     -Dttyautolock=enabled \
-    /tmp/uwsm-${UWSM_VERSION}/build
+    "/tmp/uwsm-${UWSM_VERSION}/build"
 
 RUN DESTDIR=/uwsm-out \
-    meson install -C /tmp/uwsm-${UWSM_VERSION}/build
+    meson install -C "/tmp/uwsm-${UWSM_VERSION}/build"
