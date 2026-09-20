@@ -29,7 +29,8 @@ RUN meson setup \
     -Dfumon=enabled \
     -Duwsm-app=enabled \
     -Dttyautolock=enabled \
-    "/tmp/uwsm-${UWSM_VERSION}/build"
+    "/tmp/uwsm-${UWSM_VERSION}/build" \
+    "/tmp/uwsm-${UWSM_VERSION}"
 
 RUN DESTDIR=/uwsm-out \
     meson install -C "/tmp/uwsm-${UWSM_VERSION}/build"
