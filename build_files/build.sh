@@ -20,7 +20,6 @@ dnf5 install -y \
   util-linux newt libnotify \
   inotify-tools
 
-chmod +x /usr/bin/start-hyprland-session
 
 # Use a COPR Example:
 #
@@ -32,4 +31,3 @@ chmod +x /usr/bin/start-hyprland-session
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
-systemctl --global enable hyprland.service
