@@ -28,30 +28,6 @@ dnf5 -y install \
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
-dnf5 -y copr enable lionheartp/Hyprland
-
-dnf5 -y install \
-  xdg-desktop-portal-hyprland \
-  hyprland \
-  hyprpaper \
-  hyprpicker \
-  hyprlauncher \
-  hypridle \
-  hyprlock \
-  hyprsysteminfo \
-  hyprsunset \
-  hyprpolkitagent \
-  hyprland-qt-support \
-  hyprqt6engine \
-  hyprpwcenter \
-  hyprshutdown \
-  hyprcursor \
-  hyprland-guiutils \
-  uwsm \
-  quickshell
-
-dnf5 -y copr disable lionheartp/Hyprland
-
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
