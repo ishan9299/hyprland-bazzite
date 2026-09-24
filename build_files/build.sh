@@ -31,16 +31,7 @@ dnf5 -y install \
 dnf5 -y copr enable lionheartp/Hyprland
 
 dnf5 -y install \
-  hyprland-protocols \
-  hyprwayland-scanner \
-  hyprutils \
-  hyprgraphics \
-  hyprlang \
-  hyprcursor \
-  aquamarine \
   xdg-desktop-portal-hyprland \
-  hyprwire \
-  hyprtoolkit \
   hyprland \
   hyprpaper \
   hyprpicker \
