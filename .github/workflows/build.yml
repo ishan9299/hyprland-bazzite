@@ -1,14 +1,25 @@
+
 ---
 name: Build container image
-
-# Triggered by pipeline.yml (workflow_call) or manually.
-# Path filters, schedule and concurrency now live in the orchestrator.
 on:
-  workflow_call:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '05 10 * * *'  # 10:05am UTC everyday
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/README.md'
   workflow_dispatch:
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
+  cancel-in-progress: true
 
 jobs:
   build_push:
