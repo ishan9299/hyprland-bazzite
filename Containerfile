@@ -5,20 +5,12 @@
 FROM scratch AS ctx
 
 COPY build_files /
-COPY system_files /system_files
-
-
 
 # ============================================================================
 # Base Image
 # ============================================================================
 
-FROM ghcr.io/ublue-os/bazzite-dx:stable
-
-COPY --from=ghcr.io/ishan9299/hyprland-artifacts:latest / /
-COPY --from=ghcr.io/ishan9299/hyprland-ecosystem:latest / /
-COPY --from=ghcr.io/ishan9299/quickshell-artifacts:latest /quickshell-out /
-COPY --from=ghcr.io/ishan9299/uwsm-artifacts:latest /uwsm-out /
+FROM ghcr.io/ublue-os/bazzite:stable
 
 # ============================================================================
 # Image modifications

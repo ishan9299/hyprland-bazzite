@@ -2,9 +2,6 @@
 
 set -ouex pipefail
 
-# Copy the contents of system_files/ of the git repo to /
-cp -avf "/ctx/system_files"/. /
-
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
@@ -13,12 +10,15 @@ cp -avf "/ctx/system_files"/. /
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
-dnf5 install -y \
-  tmux stow muParser \
-  tomlplusplus iniparser jemalloc \
-  dunst python3-pyxdg python3-dbus \
-  util-linux newt libnotify \
-  inotify-tools
+dnf5 install -y
+  qemu \
+  edk2-ovmf \
+  edk2-tools \
+  libvirt \
+  qemu-kvm \
+  virt-manager \
+  android-tools \
+  rclone
 
 
 # Use a COPR Example:
@@ -27,6 +27,39 @@ dnf5 install -y \
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
+
+dnf5 -y copr enable lionheartp/Hyprland
+
+dnf5 -y install \
+  hyprland-protocols \
+  hyprwayland-scanner \
+  hyprutils \
+  hyprgraphics \
+  hyprlang \
+  hyprcursor \
+  aquamarine \
+  xdg-desktop-portal-hyprland \
+  hyprwire \
+  hyprtoolkit \
+  hyprland \
+  hyprpaper \
+  hyprpicker \
+  hyprlauncher \
+  hypridle \
+  hyprlock \
+  hyprsysteminfo \
+  hyprsunset \
+  hyprpolkitagent \
+  hyprland-qt-support \
+  hyprqt6engine \
+  hyprpwcenter \
+  hyprshutdown \
+  hyprcursor \
+  hyprland-guiutils \
+  uwsm \
+  quickshell
+
+dnf5 -y copr disable lionheartp/Hyprland
 
 #### Example for enabling a System Unit File
 
