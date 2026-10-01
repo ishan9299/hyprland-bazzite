@@ -5,6 +5,7 @@
 FROM scratch AS ctx
 
 COPY build_files /
+COPY system_files /
 
 # ============================================================================
 # Base Image
