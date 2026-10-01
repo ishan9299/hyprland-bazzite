@@ -32,22 +32,15 @@ dnf5 -y copr enable lionheartp/Hyprland
 
 dnf5 -y install \
   xdg-desktop-portal-hyprland \
-  hyprland \
-  hyprpaper \
-  hyprpicker \
+  hyprland-git \
   hyprlauncher \
-  hypridle \
-  hyprlock \
-  hyprsysteminfo \
-  hyprsunset \
-  hyprpolkitagent \
   hyprland-qt-support \
   hyprqt6engine \
   hyprpwcenter \
-  hyprshutdown \
   hyprcursor \
   hyprland-guiutils \
   uwsm \
+  noctalia-git \
   quickshell
 
 dnf5 -y copr disable lionheartp/Hyprland
