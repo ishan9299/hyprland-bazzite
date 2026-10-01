@@ -5,13 +5,14 @@
 FROM scratch AS ctx
 
 COPY build_files /
-COPY system_files /
 
 # ============================================================================
 # Base Image
 # ============================================================================
 
 FROM ghcr.io/ublue-os/bazzite:stable
+
+COPY system_files /
 
 # ============================================================================
 # Image modifications
