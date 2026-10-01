@@ -48,3 +48,6 @@ dnf5 -y copr disable lionheartp/Hyprland
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+systemctl --global enable noctalia.service
+systemctl --global enable plasma-polkit-agent.service

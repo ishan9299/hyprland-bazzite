@@ -1,0 +1,13 @@
+[Unit]
+Description=Quickshell
+PartOf=wayland-session@hyprland.desktop.target
+After=wayland-session@hyprland.desktop.target
+
+[Service]
+ExecStart=/usr/bin/quickshell
+Restart=on-failure
+RestartSec=2
+Slice=app-graphical.slice
+
+[Install]
+WantedBy=wayland-session@hyprland.desktop.target
