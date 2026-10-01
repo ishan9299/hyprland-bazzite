@@ -1,10 +1,10 @@
 [Unit]
-Description=Quickshell
+Description=noctalia
 PartOf=wayland-session@hyprland.desktop.target
 After=wayland-session@hyprland.desktop.target
 
 [Service]
-ExecStart=/usr/bin/quickshell
+ExecStart=/usr/bin/noctalia
 Restart=on-failure
 RestartSec=2
 Slice=app-graphical.slice
